@@ -35,11 +35,11 @@
 #define TLS_ERR_RET(r, s)                               \
 do {                                                    \
 	long err;                                       \
-        (r) = 0;                                        \
+        if ((r)) (r) = 0;                                        \
 	if ((*tls_domains_cfg)->srv_default->ctx &&         \
 	    (*tls_domains_cfg)->srv_default->ctx[0]) {      \
 		while((err = ERR_get_error())) {        \
-			(r) = 1;                        \
+			if ((r)) (r) = 1;                        \
 			ERR("%s%s\n", ((s)) ? (s) : "", \
 			    ERR_error_string(err, 0));  \
 		}                                       \
@@ -48,9 +48,8 @@ do {                                                    \
 
 
 #define TLS_ERR(s)           \
-do {                         \
-	int ret;             \
-	TLS_ERR_RET(ret, s); \
+do {                         \             \
+	TLS_ERR_RET(NULL, s); \
 } while(0)
 
 
